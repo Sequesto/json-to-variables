@@ -4,6 +4,7 @@ const core = require("@actions/core");
 
 try {
   const fileName = core.getInput("filename", { required: true });
+  const prefix = core.getInput("prefix") || "json";
 
   const fullPath = path.resolve(fileName);
   core.info(`Processing file: ${fullPath}`);
@@ -18,7 +19,7 @@ try {
 
     if (Array.isArray(variable)) {
       variable.forEach((value, index) => {
-        processVariable(value, `${name}_${index}`);
+        processVariable(value, index);
       });
     } else if (typeof variable === "object") {
       for (const field in variable) {
